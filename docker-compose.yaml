@@ -1,6 +1,6 @@
 services:
   n8nserver:
-    image: n8n:latest
+    image: docker pull n8nio/n8n:stable
     ports:
       - "80:5678"
     environment:
