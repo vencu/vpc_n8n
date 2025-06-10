@@ -42,7 +42,7 @@ else
 fi
 
 #Run n8n using Docker compose
-wget -q https://github.com/vencu/vpc_n8n/docker-compose.yml -O docker-compose.yml
+wget -q https://raw.githubusercontent.com/vencu/vpc_n8n/refs/heads/main/docker-compose.yaml -O docker-compose.yml
 if [ ! -f docker-compose.yml ]; then
     echo "❌ Failed to download docker-compose.yml. Exiting."
     exit 1
