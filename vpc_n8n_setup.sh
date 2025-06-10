@@ -49,7 +49,7 @@ if [ ! -f docker-compose.yml ]; then
 fi
 echo "🚀 Starting n8n using Docker Compose..."
 export EXTERNAL_IP=$(hostname -I | awk '{print $1}')
-sudo -E docker-compose up -d
+sudo -E docker compose up -d
 
 # Check if n8n is started
 if docker ps | grep -q n8n; then
