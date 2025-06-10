@@ -57,7 +57,7 @@ if docker ps | grep -q n8n; then
     echo "⭕ Skipping n8n installation."
 else
     echo "🚀 Starting n8n..."
-    docker-compose up -d
+    docker compose up -d
     echo " n8n started successfully."
 fi
 
