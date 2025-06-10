@@ -1,12 +1,14 @@
 services:
   n8nserver:
     image: n8nio/n8n:stable
+    container_name: n8nserver
+    restart: always
     ports:
       - "80:5678"
     environment:
       - N8N_BASIC_AUTH_USER=admin
-      - N8N_BASIC_AUTH_PASSWORD=admin
-      - N8N_SECURE_COOKIE=true
+      - N8N_BASIC_AUTH_PASSWORD=admin     
+      - N8N_SECURE_COOKIE=false 
       - N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=true
       - N8N_EDITOR_BASE_URL=${EXTERNAL_IP}
       - N8N_DEFAULT_BINARY_DATA=filesystem

@@ -32,14 +32,12 @@ else
 fi
 
 #Creating volume volume for n8n workflow data
-if ! docker volume ls | grep -q n8n_data; then
-    echo "🚀 Creating Docker volume for n8n workflow data..."
-    docker volume create n8n_data
-    echo "✅ Docker volume 'n8n_data' created successfully."
-else
-    echo "Docker volume 'n8n_data' already exists."
-    echo "⭕ Skipping Docker volume creation."
-fi
+echo "📂 Creating n8n data volume..."
+mkdir -p ~/n8n_data
+sudo chown -R 1000:1000 ~/n8n_data
+sudo chmod -R 755 ~/n8n_data
+echo "✅ Docker volume 'n8n_data' created successfully."
+
 
 #Run n8n using Docker compose
 wget -q https://raw.githubusercontent.com/vencu/vpc_n8n/refs/heads/main/docker-compose.yaml -O docker-compose.yml
@@ -73,8 +71,8 @@ echo "✅ n8n setup completed successfully."
 # Display n8n URL
 echo "You can access n8n at: http://${EXTERNAL_IP}:80"
 # Display Docker volume information
-echo "Docker volume 'n8n_data' is created and used for storing n8n workflow data."
+#echo "Docker volume 'n8n_data' is created and used for storing n8n workflow data."
 
 # Display n8n logs
 echo "n8n logs:"
-docker logs n8n
+docker logs n8nserver
