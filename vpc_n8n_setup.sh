@@ -4,7 +4,7 @@
 #####################################################################################################################
 ### @file : vpc_n8n_setup.sh
 ### @author: Venu
-### @date: 2023-10-01
+### @date: 2025-05-30
 ### @version: 1.0
 ### @license: ----
 ### @description : This script sets up a VPC for n8n
@@ -12,6 +12,11 @@
 #####################################################################################################################
 
 set -e
+
+export NGROK_AUTHTOKEN=""  #Ngrok authtoken get it from your ngrock account
+export N8N_ENDPOINT="" #Ngrok web url which was the publicly exposed for yor service(ex:n8n)
+export NGROK_TUNNEL_ENDPOINT="$(hostname -I | awk '{print $1}'):5678" #Ngrok tunnel endpointwhich service running locally to be exposed publicly
+
 # Docker installation
 if ! command -v docker &> /dev/null; then
     echo "🚀 Docker not found. Installing Docker..."
@@ -38,6 +43,13 @@ sudo chown -R 1000:1000 ~/n8n_data
 sudo chmod -R 755 ~/n8n_data
 echo "✅ Docker volume 'n8n_data' created successfully."
 
+echo "📂 Creating ngrok data volume..."
+mkdir -p ~/ngrok_data
+sudo chown -R 1000:1000 ~/ngrok_data
+sudo chmod -R 755 ~/ngrok_data
+echo "✅ Docker volume 'ngrok_data' created successfully."
+
+
 
 #Run n8n using Docker compose
 wget -q https://raw.githubusercontent.com/vencu/vpc_n8n/refs/heads/main/docker-compose.yaml -O docker-compose.yml
@@ -46,7 +58,6 @@ if [ ! -f docker-compose.yml ]; then
     exit 1
 fi
 echo "🚀 Starting n8n using Docker Compose..."
-export EXTERNAL_IP=$(hostname -I | awk '{print $1}')
 sudo -E docker compose up -d
 
 # Check if n8n is started
@@ -68,10 +79,10 @@ else
 fi
 echo "✅ n8n setup completed successfully."
 
-# Display n8n URL
-echo "You can access n8n at: http://${EXTERNAL_IP}:80"
+
+echo "You can access n8n at: http://${N8N_ENDPOINT}:80"
 # Display Docker volume information
-#echo "Docker volume 'n8n_data' is created and used for storing n8n workflow data."
+echo "Docker volume 'n8n_data' is created and used for storing n8n workflow data."
 
 # Display n8n logs
 echo "n8n logs:"
